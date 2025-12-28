@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Interactive Particles | Codrops</title>
+	<meta name="description"
+		content="Demo of a tutorial on how to draw a large number of particles with Three.js and make them interactive." />
+	<meta name="keywords" content="three.js, tutorial, particles, interactive, javascript, webgl" />
+	<meta name="author" content="Bruno Imbrizi for Codrops" />
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" type="text/css" href="css/base.css" />
+	<link rel="stylesheet" type="text/css" href="css/demo1.css" />
+	<link rel="stylesheet" type="text/css" href="css/custom-gui.css" />
+	<script>document.documentElement.className = "js"; var supportsCssVars = function () { var e, t = document.createElement("style"); return t.innerHTML = "root: { --tmp-var: bold; }", document.head.appendChild(t), e = !!(window.CSS && window.CSS.supports && window.CSS.supports("font-weight", "var(--tmp-var)")), t.parentNode.removeChild(t), e }; supportsCssVars() || alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
+</head>
+
+<body class="demo-1">
+	<main>
+		<div class="frame">
+			<!-- Content removed -->
+		</div>
+		<div id="custom-gui" class="glass-menu">
+			<h3>Settings</h3>
+			<div class="gui-group">
+				<label>Touch Radius</label>
+				<input type="range" id="touchRadius" min="0" max="0.5" step="0.01" value="0.15">
+			</div>
+			<div class="gui-group">
+				<label>Particles Random</label>
+				<input type="range" id="particlesRandom" min="1" max="10" step="0.1" value="2">
+			</div>
+			<div class="gui-group">
+				<label>Particles Depth</label>
+				<input type="range" id="particlesDepth" min="1" max="10" step="0.1" value="4">
+			</div>
+			<div class="gui-group">
+				<label>Particles Size</label>
+				<input type="range" id="particlesSize" min="0" max="3" step="0.1" value="1.5">
+			</div>
+			<div class="gui-group checkbox-group">
+				<label>Show Hit Area</label>
+				<input type="checkbox" id="particlesHitArea">
+			</div>
+		</div>
+		<div id="photo-title" class="photo-title"></div>
+		<div id="photo-nav" class="photo-nav"></div>
+	</main>
+	<div class="container"></div>
+</body>
+
+</html>

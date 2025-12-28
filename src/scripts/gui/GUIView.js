@@ -1,0 +1,172 @@
+export default class GUIView {
+
+	constructor(app) {
+		this.app = app;
+
+		// Default settings
+		this.defaultSettings = {
+			particlesHitArea: false,
+			particlesRandom: 2,
+			particlesDepth: 4,
+			particlesSize: 1.5,
+			touchRadius: 0.15
+		};
+
+		// Current state
+		this.particlesHitArea = this.defaultSettings.particlesHitArea;
+		this.particlesRandom = this.defaultSettings.particlesRandom;
+		this.particlesDepth = this.defaultSettings.particlesDepth;
+		this.particlesSize = this.defaultSettings.particlesSize;
+		this.touchRadius = this.defaultSettings.touchRadius;
+
+		// Map to store settings per image index
+		this.loadFromLocalStorage();
+
+		this.initCustomGUI();
+	}
+
+	loadFromLocalStorage() {
+		const stored = localStorage.getItem('particle_settings');
+		if (stored) {
+			try {
+				this.settingsMap = JSON.parse(stored);
+			} catch (e) {
+				console.error('Error parsing settings from localStorage', e);
+				this.settingsMap = {};
+			}
+		} else {
+			this.settingsMap = {};
+		}
+	}
+
+	saveToLocalStorage() {
+		localStorage.setItem('particle_settings', JSON.stringify(this.settingsMap));
+	}
+
+	initCustomGUI() {
+		this.dom = {
+			touchRadius: document.getElementById('touchRadius'),
+			particlesRandom: document.getElementById('particlesRandom'),
+			particlesDepth: document.getElementById('particlesDepth'),
+			particlesSize: document.getElementById('particlesSize'),
+			particlesHitArea: document.getElementById('particlesHitArea')
+		};
+
+		if (this.dom.touchRadius) {
+			this.dom.touchRadius.addEventListener('input', (e) => {
+				this.touchRadius = parseFloat(e.target.value);
+				this.onTouchChange();
+				this.saveCurrentSettings();
+			});
+		}
+
+		if (this.dom.particlesRandom) {
+			this.dom.particlesRandom.addEventListener('input', (e) => {
+				this.particlesRandom = parseFloat(e.target.value);
+				this.onParticlesChange();
+				this.saveCurrentSettings();
+			});
+		}
+
+		if (this.dom.particlesDepth) {
+			this.dom.particlesDepth.addEventListener('input', (e) => {
+				this.particlesDepth = parseFloat(e.target.value);
+				this.onParticlesChange();
+				this.saveCurrentSettings();
+			});
+		}
+
+		if (this.dom.particlesSize) {
+			this.dom.particlesSize.addEventListener('input', (e) => {
+				this.particlesSize = parseFloat(e.target.value);
+				this.onParticlesChange();
+				this.saveCurrentSettings();
+			});
+		}
+
+		if (this.dom.particlesHitArea) {
+			this.dom.particlesHitArea.addEventListener('change', (e) => {
+				this.particlesHitArea = e.target.checked;
+				this.onParticlesChange();
+				this.saveCurrentSettings();
+			});
+		}
+	}
+
+	saveCurrentSettings() {
+		const index = this.app.webgl.currSample;
+		if (index === undefined) return;
+
+		this.settingsMap[index] = {
+			particlesHitArea: this.particlesHitArea,
+			particlesRandom: this.particlesRandom,
+			particlesDepth: this.particlesDepth,
+			particlesSize: this.particlesSize,
+			touchRadius: this.touchRadius
+		};
+
+		this.saveToLocalStorage();
+	}
+
+	loadSettingsForIndex(index) {
+		const settings = this.settingsMap[index] || { ...this.defaultSettings };
+
+		// Update internal state
+		this.particlesHitArea = settings.particlesHitArea;
+		this.particlesRandom = settings.particlesRandom;
+		this.particlesDepth = settings.particlesDepth;
+		this.particlesSize = settings.particlesSize;
+		this.touchRadius = settings.touchRadius;
+
+		// Update DOM elements
+		if (this.dom.touchRadius) this.dom.touchRadius.value = this.touchRadius;
+		if (this.dom.particlesRandom) this.dom.particlesRandom.value = this.particlesRandom;
+		if (this.dom.particlesDepth) this.dom.particlesDepth.value = this.particlesDepth;
+		if (this.dom.particlesSize) this.dom.particlesSize.value = this.particlesSize;
+		if (this.dom.particlesHitArea) this.dom.particlesHitArea.checked = this.particlesHitArea;
+
+		// Apply to WebGL
+		this.onTouchChange();
+		this.onParticlesChange();
+	}
+
+	initStats() {
+		this.stats = new Stats();
+		document.body.appendChild(this.stats.dom);
+	}
+
+	update() { }
+
+	enable() {
+		const gui = document.getElementById('custom-gui');
+		if (gui) gui.style.display = 'flex';
+	}
+
+	disable() {
+		const gui = document.getElementById('custom-gui');
+		if (gui) gui.style.display = 'none';
+	}
+
+	toggle() {
+		const gui = document.getElementById('custom-gui');
+		if (gui && gui.style.display === 'none') this.enable();
+		else this.disable();
+	}
+
+	onTouchChange() {
+		if (!this.app.webgl || !this.app.webgl.particles || !this.app.webgl.particles.touch) return;
+		this.app.webgl.particles.touch.radius = this.touchRadius;
+	}
+
+	onParticlesChange() {
+		if (!this.app.webgl || !this.app.webgl.particles || !this.app.webgl.particles.object3D) return;
+
+		this.app.webgl.particles.object3D.material.uniforms.uRandom.value = this.particlesRandom;
+		this.app.webgl.particles.object3D.material.uniforms.uDepth.value = this.particlesDepth;
+		this.app.webgl.particles.object3D.material.uniforms.uSize.value = this.particlesSize;
+
+		if (this.app.webgl.particles.hitArea) {
+			this.app.webgl.particles.hitArea.material.visible = this.particlesHitArea;
+		}
+	}
+}
