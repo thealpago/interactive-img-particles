@@ -91,6 +91,27 @@ export default class GUIView {
 				this.saveCurrentSettings();
 			});
 		}
+
+
+		// Mobile Toggle Logic
+		const toggleBtn = document.getElementById('gui-toggle');
+		const guiMenu = document.getElementById('custom-gui');
+
+		if (toggleBtn && guiMenu) {
+			toggleBtn.addEventListener('click', (e) => {
+				e.stopPropagation(); // Prevent closing immediately
+				guiMenu.classList.toggle('visible');
+			});
+
+			// Close menu when clicking outside
+			document.addEventListener('click', (e) => {
+				if (guiMenu.classList.contains('visible') &&
+					!guiMenu.contains(e.target) &&
+					!toggleBtn.contains(e.target)) {
+					guiMenu.classList.remove('visible');
+				}
+			});
+		}
 	}
 
 	saveCurrentSettings() {

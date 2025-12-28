@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="css/base.css" />
 	<link rel="stylesheet" type="text/css" href="css/demo1.css" />
 	<link rel="stylesheet" type="text/css" href="css/custom-gui.css" />
+	<link rel="stylesheet" type="text/css" href="css/mobile-styles.css" />
 	<script>document.documentElement.className = "js"; var supportsCssVars = function () { var e, t = document.createElement("style"); return t.innerHTML = "root: { --tmp-var: bold; }", document.head.appendChild(t), e = !!(window.CSS && window.CSS.supports && window.CSS.supports("font-weight", "var(--tmp-var)")), t.parentNode.removeChild(t), e }; supportsCssVars() || alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
 </head>
 
@@ -21,6 +22,14 @@
 		<div class="frame">
 			<!-- Content removed -->
 		</div>
+		<button id="gui-toggle" class="gui-toggle">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+				stroke-linecap="round" stroke-linejoin="round">
+				<line x1="3" y1="12" x2="21" y2="12"></line>
+				<line x1="3" y1="6" x2="21" y2="6"></line>
+				<line x1="3" y1="18" x2="21" y2="18"></line>
+			</svg>
+		</button>
 		<div id="custom-gui" class="glass-menu">
 			<h3>Settings</h3>
 			<div class="gui-group">
