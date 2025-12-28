@@ -137,7 +137,19 @@ export default class InteractiveControls extends EventEmitter {
 
 	onDown(e) {
 		this.isDown = true;
-		this.onMove(e);
+
+		// Update rect on touch start to handle dynamic mobile viewports
+		if (e.touches) {
+			this.resize();
+			// this.onMove(e); // Let touchmove handle movement, just set down here?
+			// But we need initial position.
+			const t = e.touches[0];
+			this.mouse.x = ((t.clientX - this.rect.x) / this.rect.width) * 2 - 1;
+			this.mouse.y = -((t.clientY - this.rect.y) / this.rect.height) * 2 + 1;
+			this.raycaster.setFromCamera(this.mouse, this.camera);
+		} else {
+			this.onMove(e);
+		}
 
 		this.emit('interactive-down', { object: this.hovered, previous: this.selected, intersectionData: this.intersectionData });
 		this.selected = this.hovered;

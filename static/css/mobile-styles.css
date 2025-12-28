@@ -73,16 +73,20 @@
     }
 
     .photo-title {
-        bottom: 90px;
         font-size: 0.9rem;
         padding: 8px 20px;
         width: max-content;
         max-width: 90vw;
         text-align: center;
+        /* Reset positioning for flex container */
+        position: static;
+        bottom: auto;
+        transform: none;
     }
 
     .photo-title.visible {
-        bottom: 85px;
+        /* No bottom change needed */
+        opacity: 1;
     }
 }
 

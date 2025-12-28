@@ -13,9 +13,10 @@
 .photo-title {
     /* Reset previous fixed positioning */
     position: relative;
-    bottom: auto;
+    bottom: 0 !important;
     left: auto;
     transform: none;
+    margin: 0;
 
     padding: 10px 25px;
     background: transparent;
