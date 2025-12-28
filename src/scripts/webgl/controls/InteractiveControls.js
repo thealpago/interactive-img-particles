@@ -20,7 +20,7 @@ export default class InteractiveControls extends EventEmitter {
 		this.mouse = new THREE.Vector2();
 		this.offset = new THREE.Vector3();
 		this.intersection = new THREE.Vector3();
-		
+
 		this.objects = [];
 		this.hovered = null;
 		this.selected = null;
@@ -93,8 +93,8 @@ export default class InteractiveControls extends EventEmitter {
 		const t = (e.touches) ? e.touches[0] : e;
 		const touch = { x: t.clientX, y: t.clientY };
 
-		this.mouse.x = ((touch.x + this.rect.x) / this.rect.width) * 2 - 1;
-		this.mouse.y = -((touch.y + this.rect.y) / this.rect.height) * 2 + 1;
+		this.mouse.x = ((touch.x - this.rect.x) / this.rect.width) * 2 - 1;
+		this.mouse.y = -((touch.y - this.rect.y) / this.rect.height) * 2 + 1;
 
 		this.raycaster.setFromCamera(this.mouse, this.camera);
 
@@ -157,7 +157,7 @@ export default class InteractiveControls extends EventEmitter {
 
 	onLeave(e) {
 		this.onUp(e);
-		
+
 		this.emit('interactive-out', { object: this.hovered });
 		this.hovered = null;
 	}
