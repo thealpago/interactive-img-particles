@@ -49,6 +49,13 @@ export default class WebGLView {
 	initNav() {
 		this.navContainer = document.getElementById('photo-nav');
 		this.titleElement = document.getElementById('photo-title');
+		this.prevBtn = document.getElementById('prev-btn');
+		this.nextBtn = document.getElementById('next-btn');
+
+		// Arrow Navigation
+		if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.previous());
+		if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.next());
+
 		this.navDots = [];
 
 		this.samples.forEach((sample, index) => {
@@ -72,6 +79,18 @@ export default class WebGLView {
 			this.navContainer.appendChild(wrapper);
 			this.navDots.push(wrapper);
 		});
+	}
+
+	// ... (rest of code)
+
+	previous() {
+		if (this.currSample > 0) this.goto(this.currSample - 1);
+		else this.goto(this.samples.length - 1);
+	}
+
+	next() {
+		if (this.currSample < this.samples.length - 1) this.goto(this.currSample + 1);
+		else this.goto(0);
 	}
 
 	updateTitle(index) {
@@ -148,10 +167,7 @@ export default class WebGLView {
 		this.updateNav(index);
 	}
 
-	next() {
-		if (this.currSample < this.samples.length - 1) this.goto(this.currSample + 1);
-		else this.goto(0);
-	}
+
 
 	// ---------------------------------------------------------------------------------------------
 	// EVENT HANDLERS
