@@ -21,7 +21,8 @@ export default class WebGLView {
 			'images/sample-07.jpg',
 			'images/sample-08.jpg',
 			'images/sample-09.jpg',
-			'images/sample-10.jpg',
+
+
 		];
 
 		this.photoNames = [
@@ -30,11 +31,10 @@ export default class WebGLView {
 			'Albert Einstein',
 			'The Tenth Doctor',
 			'Brad Pitt',
+			'John Wick',
 			'AI Girl',
 			'AI Girl 2',
-			'Iron Man',
-			'Zebra',
-			'John Wick'
+			'AI Girl 3',
 		];
 
 		this.initThree();
