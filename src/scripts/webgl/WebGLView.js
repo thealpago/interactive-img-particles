@@ -21,6 +21,11 @@ export default class WebGLView {
 			'images/sample-07.jpg',
 			'images/sample-08.jpg',
 			'images/sample-09.jpg',
+			'images/sample-10.jpg',
+			'images/sample-11.jpg',
+			'images/sample-12.jpg',
+			'images/sample-13.jpg',
+			'images/sample-14.jpg',
 
 
 		];
@@ -35,6 +40,11 @@ export default class WebGLView {
 			'AI Girl',
 			'AI Girl 2',
 			'AI Girl 3',
+			'Tatsumaki',
+			'Shanks',
+			'Shanks 2',
+			'Luffy',
+			'Luffy 2',
 		];
 
 		this.initThree();
@@ -55,6 +65,12 @@ export default class WebGLView {
 		// Arrow Navigation
 		if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.previous());
 		if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.next());
+
+		// Keyboard Navigation
+		window.addEventListener('keydown', (e) => {
+			if (e.key === 'ArrowLeft') this.previous();
+			if (e.key === 'ArrowRight') this.next();
+		});
 
 		this.navDots = [];
 
