@@ -51,9 +51,9 @@ export default class InteractiveControls extends EventEmitter {
 		this.handlerLeave = this.onLeave.bind(this);
 
 		if (this.browser.mobile) {
-			this.el.addEventListener('touchstart', this.handlerDown, passiveEvent);
-			this.el.addEventListener('touchmove', this.handlerMove, passiveEvent);
-			this.el.addEventListener('touchend', this.handlerUp, passiveEvent);
+			this.el.addEventListener('touchstart', this.handlerDown, { passive: false });
+			this.el.addEventListener('touchmove', this.handlerMove, { passive: false });
+			this.el.addEventListener('touchend', this.handlerUp, { passive: false });
 		}
 		else {
 			this.el.addEventListener('mousedown', this.handlerDown);
@@ -90,6 +90,11 @@ export default class InteractiveControls extends EventEmitter {
 	}
 
 	onMove(e) {
+		// Prevent page scrolling on touch devices when interacting with particles
+		if (e.touches) {
+			e.preventDefault();
+		}
+		
 		const t = (e.touches) ? e.touches[0] : e;
 		const touch = { x: t.clientX, y: t.clientY };
 
@@ -136,6 +141,9 @@ export default class InteractiveControls extends EventEmitter {
 	}
 
 	onDown(e) {
+		// Don't prevent default on touchstart to allow tablet scrolling
+		// Only prevent on touchmove when actually interacting with particles
+		
 		this.isDown = true;
 
 		// Update rect on touch start to handle dynamic mobile viewports

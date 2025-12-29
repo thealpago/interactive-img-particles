@@ -28,7 +28,129 @@ export default class Particles {
 			this.initTouch();
 			this.resize();
 			this.show();
+		}, undefined, (error) => {
+			console.error('Error loading texture:', error);
+			// Create a fallback texture
+			this.createFallbackTexture();
 		});
+	}
+
+	updateTexture(src) {
+		const loader = new THREE.TextureLoader();
+		
+		loader.load(src, (texture) => {
+			// Instantly swap to new texture
+			const oldTexture = this.texture;
+			this.texture = texture;
+			this.texture.minFilter = THREE.LinearFilter;
+			this.texture.magFilter = THREE.LinearFilter;
+			this.texture.format = THREE.RGBFormat;
+
+			this.width = texture.image.width;
+			this.height = texture.image.height;
+
+			// Update material uniforms instantly
+			this.object3D.material.uniforms.uTexture.value = this.texture;
+			this.object3D.material.uniforms.uTextureSize.value.set(this.width, this.height);
+			
+			// Update particle positions for new texture
+			this.updateParticlePositions();
+			
+			// Update hit area and scaling
+			this.updateHitArea();
+			this.resize();
+			
+			// Dispose old texture
+			if (oldTexture) oldTexture.dispose();
+		}, undefined, (error) => {
+			console.error('Error updating texture:', error);
+		});
+	}
+
+	updateParticlePositions() {
+		const geometry = this.object3D.geometry;
+		const numPoints = this.width * this.height;
+		let numVisible = numPoints;
+		let threshold = 34;
+		let originalColors;
+
+		// Get pixel data from new texture
+		const img = this.texture.image;
+		const canvas = document.createElement('canvas');
+		const ctx = canvas.getContext('2d');
+		
+		canvas.width = this.width;
+		canvas.height = this.height;
+		ctx.scale(1, -1);
+		ctx.drawImage(img, 0, 0, this.width, this.height * -1);
+
+		const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		originalColors = Float32Array.from(imgData.data);
+
+		// Count visible pixels
+		for (let i = 0; i < numPoints; i++) {
+			if (originalColors[i * 4 + 0] <= threshold) numVisible--;
+		}
+
+		// Update buffer attributes
+		const indices = new Uint16Array(numVisible);
+		const offsets = new Float32Array(numVisible * 3);
+
+		for (let i = 0, j = 0; i < numPoints; i++) {
+			if (originalColors[i * 4 + 0] <= threshold) continue;
+
+			offsets[j * 3 + 0] = i % this.width;
+			offsets[j * 3 + 1] = Math.floor(i / this.width);
+			indices[j] = i;
+			j++;
+		}
+
+		// Update geometry attributes
+		geometry.attributes.pindex.array.set(indices);
+		geometry.attributes.offset.array.set(offsets);
+		
+		geometry.attributes.pindex.needsUpdate = true;
+		geometry.attributes.offset.needsUpdate = true;
+	}
+
+	createFallbackTexture() {
+		// Create a simple canvas as fallback texture
+		const canvas = document.createElement('canvas');
+		canvas.width = 512;
+		canvas.height = 512;
+		const ctx = canvas.getContext('2d');
+		
+		// Create a gradient pattern as fallback
+		const gradient = ctx.createRadialGradient(256, 256, 0, 256, 256, 256);
+		gradient.addColorStop(0, '#ffffff');
+		gradient.addColorStop(0.5, '#cccccc');
+		gradient.addColorStop(1, '#888888');
+		
+		ctx.fillStyle = gradient;
+		ctx.fillRect(0, 0, 512, 512);
+		
+		// Add some text to indicate it's a fallback
+		ctx.fillStyle = '#000000';
+		ctx.font = '24px Arial';
+		ctx.textAlign = 'center';
+		ctx.fillText('Image Loading Error', 256, 256);
+		
+		const texture = new THREE.Texture(canvas);
+		texture.needsUpdate = true;
+		
+		this.texture = texture;
+		this.texture.minFilter = THREE.LinearFilter;
+		this.texture.magFilter = THREE.LinearFilter;
+		this.texture.format = THREE.RGBFormat;
+
+		this.width = canvas.width;
+		this.height = canvas.height;
+
+		this.initPoints(true);
+		this.initHitArea();
+		this.initTouch();
+		this.resize();
+		this.show();
 	}
 
 	initPoints(discard) {

@@ -1,4 +1,4 @@
-// @author brunoimbrizi / http://brunoimbrizi.com
+// Interactive particle vertex shader
 
 precision highp float;
 
@@ -21,6 +21,7 @@ uniform sampler2D uTouch;
 
 varying vec2 vPUv;
 varying vec2 vUv;
+varying vec4 vColor;
 
 #pragma glslify: snoise2 = require(glsl-noise/simplex/2d)
 
@@ -31,16 +32,20 @@ float random(float n) {
 void main() {
 	vUv = uv;
 
+	// Use current offset directly (no transition)
+	vec3 displaced = offset;
+
 	// particle uv
 	vec2 puv = offset.xy / uTextureSize;
 	vPUv = puv;
 
 	// pixel color
 	vec4 colA = texture2D(uTexture, puv);
+	vColor = colA;
+	
+	// Use color brightness for particle size
 	float grey = colA.r * 0.21 + colA.g * 0.71 + colA.b * 0.07;
 
-	// displacement
-	vec3 displaced = offset;
 	// randomise
 	displaced.xy += vec2(random(pindex) - 0.5, random(offset.x + pindex) - 0.5) * uRandom;
 	float rndz = (random(pindex) + snoise2(vec2(pindex * 0.1, uTime * 0.1)));
@@ -49,7 +54,7 @@ void main() {
 	displaced.xy -= uTextureSize * 0.5;
 
 	// touch
-	float t = texture2D(uTouch, puv).r;
+	float t = texture2D(uTouch, vPUv).r;
 	displaced.z += t * 60.0 * rndz;
 	displaced.x += cos(angle) * t * 60.0 * rndz;
 	displaced.y += sin(angle) * t * 60.0 * rndz;

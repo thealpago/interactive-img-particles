@@ -22,7 +22,14 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* Mobile Responsive Styles */
+/* Prevent touch scrolling on canvas container */
+.container {
+    touch-action: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 /* Mobile Responsive Styles */
 @media screen and (max-width: 900px) {
     .gui-toggle {
