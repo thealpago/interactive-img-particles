@@ -41,10 +41,12 @@ void main() {
 
 	// pixel color
 	vec4 colA = texture2D(uTexture, puv);
-	vColor = colA;
 	
-	// Use color brightness for particle size
+	// greyscale (for size calculation only)
 	float grey = colA.r * 0.21 + colA.g * 0.71 + colA.b * 0.07;
+	
+	// pass original color to fragment shader
+	vColor = colA;
 
 	// randomise
 	displaced.xy += vec2(random(pindex) - 0.5, random(offset.x + pindex) - 0.5) * uRandom;

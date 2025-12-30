@@ -54,6 +54,7 @@ module.exports = {
 			patterns: [
 				{
 					from: path.resolve(__root, 'static'),
+					to: path.resolve(__root, 'dist'),
 					noErrorOnMissing: true
 				}
 			]

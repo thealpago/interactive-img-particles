@@ -22,6 +22,10 @@ export default class App {
 
 	initGUI() {
 		this.gui = new GUIView(this);
+		// Load settings for current image after GUI is initialized
+		if (this.webgl && this.webgl.currSample !== undefined) {
+			this.gui.loadSettingsForIndex(this.webgl.currSample);
+		}
 	}
 
 	addListeners() {

@@ -3,7 +3,6 @@
   "version": "1.1.0",
   "description": "Interactive particles with Webpack 5 and Three.js",
   "main": "src/scripts/index.js",
-  "homepage": "https://thealpago.github.io/photo-interactive-particles",
   "scripts": {
     "build": "webpack --config config/prod.js",
     "start": "webpack serve --config config/dev.js",

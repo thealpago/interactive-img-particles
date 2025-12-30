@@ -12,39 +12,47 @@ export default class WebGLView {
 		this.app = app;
 
 		this.samples = [
-			'images/sample-01.jpg',
-			'images/sample-02.jpg',
-			'images/sample-03.jpg',
-			'images/sample-04.jpg',
-			'images/sample-05.jpg',
-			'images/sample-06.jpg',
-			'images/sample-07.jpg',
-			'images/sample-08.jpg',
-			'images/sample-09.jpg',
-			'images/sample-10.jpg',
-			'images/sample-11.jpg',
-			'images/sample-12.jpg',
-			'images/sample-13.jpg',
-			'images/sample-14.jpg',
-
+			'static/images/sample-01.jpg',
+			'static/images/sample-02.jpg',
+			'static/images/sample-03.jpg',
+			'static/images/sample-04.jpg',
+			'static/images/sample-05.jpg',
+			'static/images/sample-06.jpg',
+			'static/images/sample-07.jpg',
+			'static/images/sample-08.jpg',
+			'static/images/sample-09.jpg',
+			'static/images/sample-10.jpg',
+			'static/images/sample-11.jpg',
+			'static/images/sample-12.jpg',
+			'static/images/sample-13.jpg',
+			'static/images/sample-14.jpg',
+			'static/images/sample-15.jpg',
+			'static/images/sample-16.jpg',
+			'static/images/sample-17.jpg',
+			'static/images/sample-18.jpg',
 
 		];
 
 		this.photoNames = [
 			'M. K. Atatürk',
-			'M. K. Atatürk 2',
+			'Brad Pitt',
 			'Albert Einstein',
 			'The Tenth Doctor',
-			'Brad Pitt',
 			'John Wick',
-			'AI Girl',
-			'AI Girl 2',
-			'AI Girl 3',
-			'Tatsumaki',
 			'Shanks',
 			'Shanks 2',
 			'Luffy',
 			'Luffy 2',
+			'Tatsumaki',
+			'Tatsumaki 2',
+			'AI Girl',
+			'AI Girl 2',
+			'AI Girl 3',
+			'AI Girl 4',
+			'AI Girl 5',
+			'AI Girl 6',
+			'AI Girl 7',
+
 		];
 
 		this.initThree();
@@ -52,7 +60,9 @@ export default class WebGLView {
 		this.initControls();
 		this.initNav();
 
-		const rnd = ~~(Math.random() * this.samples.length);
+		// Load last selected image from localStorage, or use random if not found
+		const savedIndex = localStorage.getItem('current_photo_index');
+		const rnd = savedIndex !== null ? parseInt(savedIndex) : ~~(Math.random() * this.samples.length);
 		this.goto(rnd);
 	}
 
@@ -117,7 +127,7 @@ export default class WebGLView {
 		setTimeout(() => {
 			this.titleElement.innerText = this.photoNames[index] || '';
 			this.titleElement.classList.add('visible');
-		}, 300);
+		}, 150);
 	}
 
 	updateNav(index) {
@@ -169,6 +179,9 @@ export default class WebGLView {
 
 
 	goto(index) {
+		// Save current photo index to localStorage
+		localStorage.setItem('current_photo_index', index.toString());
+		
 		// init next
 		if (this.currSample == null) this.particles.init(this.samples[index]);
 		// hide curr then init next

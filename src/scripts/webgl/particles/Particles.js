@@ -35,84 +35,7 @@ export default class Particles {
 		});
 	}
 
-	updateTexture(src) {
-		const loader = new THREE.TextureLoader();
-		
-		loader.load(src, (texture) => {
-			// Instantly swap to new texture
-			const oldTexture = this.texture;
-			this.texture = texture;
-			this.texture.minFilter = THREE.LinearFilter;
-			this.texture.magFilter = THREE.LinearFilter;
-			this.texture.format = THREE.RGBFormat;
-
-			this.width = texture.image.width;
-			this.height = texture.image.height;
-
-			// Update material uniforms instantly
-			this.object3D.material.uniforms.uTexture.value = this.texture;
-			this.object3D.material.uniforms.uTextureSize.value.set(this.width, this.height);
-			
-			// Update particle positions for new texture
-			this.updateParticlePositions();
-			
-			// Update hit area and scaling
-			this.updateHitArea();
-			this.resize();
-			
-			// Dispose old texture
-			if (oldTexture) oldTexture.dispose();
-		}, undefined, (error) => {
-			console.error('Error updating texture:', error);
-		});
-	}
-
-	updateParticlePositions() {
-		const geometry = this.object3D.geometry;
-		const numPoints = this.width * this.height;
-		let numVisible = numPoints;
-		let threshold = 34;
-		let originalColors;
-
-		// Get pixel data from new texture
-		const img = this.texture.image;
-		const canvas = document.createElement('canvas');
-		const ctx = canvas.getContext('2d');
-		
-		canvas.width = this.width;
-		canvas.height = this.height;
-		ctx.scale(1, -1);
-		ctx.drawImage(img, 0, 0, this.width, this.height * -1);
-
-		const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-		originalColors = Float32Array.from(imgData.data);
-
-		// Count visible pixels
-		for (let i = 0; i < numPoints; i++) {
-			if (originalColors[i * 4 + 0] <= threshold) numVisible--;
-		}
-
-		// Update buffer attributes
-		const indices = new Uint16Array(numVisible);
-		const offsets = new Float32Array(numVisible * 3);
-
-		for (let i = 0, j = 0; i < numPoints; i++) {
-			if (originalColors[i * 4 + 0] <= threshold) continue;
-
-			offsets[j * 3 + 0] = i % this.width;
-			offsets[j * 3 + 1] = Math.floor(i / this.width);
-			indices[j] = i;
-			j++;
-		}
-
-		// Update geometry attributes
-		geometry.attributes.pindex.array.set(indices);
-		geometry.attributes.offset.array.set(offsets);
-		
-		geometry.attributes.pindex.needsUpdate = true;
-		geometry.attributes.offset.needsUpdate = true;
-	}
-
+	
 	createFallbackTexture() {
 		// Create a simple canvas as fallback texture
 		const canvas = document.createElement('canvas');
@@ -290,7 +213,7 @@ export default class Particles {
 		this.object3D.material.uniforms.uTime.value += delta;
 	}
 
-	show(time = 1.0) {
+	show(time = 0.6) {
 		const gui = this.webgl.app.gui;
 
 		// Use saved settings if available, otherwise defaults
@@ -301,12 +224,12 @@ export default class Particles {
 		// Transition to the target settings
 		TweenLite.to(this.object3D.material.uniforms.uSize, time, { value: size });
 		TweenLite.to(this.object3D.material.uniforms.uRandom, time, { value: random });
-		TweenLite.fromTo(this.object3D.material.uniforms.uDepth, time * 1.5, { value: 40.0 }, { value: depth });
+		TweenLite.fromTo(this.object3D.material.uniforms.uDepth, time * 1.2, { value: 40.0 }, { value: depth });
 
 		this.addListeners();
 	}
 
-	hide(_destroy, time = 0.8) {
+	hide(_destroy, time = 0.4) {
 		return new Promise((resolve, reject) => {
 			TweenLite.to(this.object3D.material.uniforms.uRandom, time, {
 				value: 5.0, onComplete: () => {
@@ -341,6 +264,7 @@ export default class Particles {
 	// EVENT HANDLERS
 	// ---------------------------------------------------------------------------------------------
 
+	
 	resize() {
 		if (!this.object3D) return;
 

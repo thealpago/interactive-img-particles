@@ -12,17 +12,14 @@ void main() {
 	vec4 color = vec4(0.0);
 	vec2 uv = vUv;
 
-	// Use original color from vertex shader
-	vec4 colA = vColor;
-
 	// circle
 	float border = 0.3;
 	float radius = 0.5;
 	float dist = radius - distance(uv, vec2(0.5));
 	float t = smoothstep(0.0, border, dist);
 
-	// final color with original RGB values
-	color = colA;
+	// final color - use the color passed from vertex shader
+	color = vColor;
 	color.a = t;
 
 	gl_FragColor = color;

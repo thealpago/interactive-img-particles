@@ -12,7 +12,7 @@ export default class GUIView {
 			touchRadius: 0.15
 		};
 
-		// Current state
+		// Current state - use default values initially
 		this.particlesHitArea = this.defaultSettings.particlesHitArea;
 		this.particlesRandom = this.defaultSettings.particlesRandom;
 		this.particlesDepth = this.defaultSettings.particlesDepth;
@@ -92,6 +92,9 @@ export default class GUIView {
 			});
 		}
 
+		// Set initial DOM values to match current state
+		this.updateDOMValues();
+
 
 		// Mobile Toggle Logic
 		const toggleBtn = document.getElementById('gui-toggle');
@@ -112,6 +115,15 @@ export default class GUIView {
 				}
 			});
 		}
+	}
+
+	updateDOMValues() {
+		// Update DOM elements to match current state
+		if (this.dom.touchRadius) this.dom.touchRadius.value = this.touchRadius;
+		if (this.dom.particlesRandom) this.dom.particlesRandom.value = this.particlesRandom;
+		if (this.dom.particlesDepth) this.dom.particlesDepth.value = this.particlesDepth;
+		if (this.dom.particlesSize) this.dom.particlesSize.value = this.particlesSize;
+		if (this.dom.particlesHitArea) this.dom.particlesHitArea.checked = this.particlesHitArea;
 	}
 
 	saveCurrentSettings() {
@@ -140,11 +152,7 @@ export default class GUIView {
 		this.touchRadius = settings.touchRadius;
 
 		// Update DOM elements
-		if (this.dom.touchRadius) this.dom.touchRadius.value = this.touchRadius;
-		if (this.dom.particlesRandom) this.dom.particlesRandom.value = this.particlesRandom;
-		if (this.dom.particlesDepth) this.dom.particlesDepth.value = this.particlesDepth;
-		if (this.dom.particlesSize) this.dom.particlesSize.value = this.particlesSize;
-		if (this.dom.particlesHitArea) this.dom.particlesHitArea.checked = this.particlesHitArea;
+		this.updateDOMValues();
 
 		// Apply to WebGL
 		this.onTouchChange();
