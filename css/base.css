@@ -65,7 +65,7 @@ a:focus {
 	width: 100vw;
 	height: calc(100vh - 13rem);
 	position: relative;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 }
 

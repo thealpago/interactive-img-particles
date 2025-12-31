@@ -30,12 +30,54 @@
     user-select: none;
 }
 
-/* Mobile Responsive Styles */
+/* Mobile Responsive Styles - Desktop-like fixed layout */
 @media screen and (max-width: 900px) {
+    /* Fixed viewport for iPhone 11 optimization */
+    html, body {
+        overflow: hidden;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        touch-action: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* Center content like desktop */
+    .container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100vw;
+        height: 100vh;
+        touch-action: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    .content {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    /* GUI Toggle positioned for iPhone 11 */
     .gui-toggle {
         display: flex;
         justify-content: center;
         align-items: center;
+        position: fixed;
+        top: 40px;
+        right: 20px;
+        z-index: 10002;
     }
 
     .glass-menu {
