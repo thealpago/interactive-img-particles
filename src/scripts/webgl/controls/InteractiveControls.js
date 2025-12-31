@@ -49,6 +49,7 @@ export default class InteractiveControls extends EventEmitter {
 		this.handlerMove = this.onMove.bind(this);
 		this.handlerUp = this.onUp.bind(this);
 		this.handlerLeave = this.onLeave.bind(this);
+		this.handlerContextMenu = this.onContextMenu.bind(this);
 
 		if (this.browser.mobile) {
 			this.el.addEventListener('touchstart', this.handlerDown, { passive: false });
@@ -60,6 +61,7 @@ export default class InteractiveControls extends EventEmitter {
 			this.el.addEventListener('mousemove', this.handlerMove);
 			this.el.addEventListener('mouseup', this.handlerUp);
 			this.el.addEventListener('mouseleave', this.handlerLeave);
+			this.el.addEventListener('contextmenu', this.handlerContextMenu);
 		}
 	}
 
@@ -74,6 +76,7 @@ export default class InteractiveControls extends EventEmitter {
 			this.el.removeEventListener('mousemove', this.handlerMove);
 			this.el.removeEventListener('mouseup', this.handlerUp);
 			this.el.removeEventListener('mouseleave', this.handlerLeave);
+			this.el.removeEventListener('contextmenu', this.handlerContextMenu);
 		}
 	}
 
@@ -146,6 +149,15 @@ export default class InteractiveControls extends EventEmitter {
 		
 		this.isDown = true;
 
+		// Check for left mouse click (button 0) and middle mouse click (button 1)
+		const isLeftClick = !e.touches && e.button === 0;
+		const isMiddleClick = !e.touches && e.button === 1;
+
+		// Prevent default action on middle click (like auto-scroll)
+		if (isMiddleClick) {
+			e.preventDefault();
+		}
+
 		// Update rect on touch start to handle dynamic mobile viewports
 		if (e.touches) {
 			this.resize();
@@ -159,7 +171,7 @@ export default class InteractiveControls extends EventEmitter {
 			this.onMove(e);
 		}
 
-		this.emit('interactive-down', { object: this.hovered, previous: this.selected, intersectionData: this.intersectionData });
+		this.emit('interactive-down', { object: this.hovered, previous: this.selected, intersectionData: this.intersectionData, isLeftClick, isMiddleClick });
 		this.selected = this.hovered;
 
 		if (this.selected) {
@@ -172,7 +184,17 @@ export default class InteractiveControls extends EventEmitter {
 	onUp(e) {
 		this.isDown = false;
 
-		this.emit('interactive-up', { object: this.hovered });
+		const isLeftClick = !e.touches && e.button === 0;
+		const isMiddleClick = !e.touches && e.button === 1;
+
+		this.emit('interactive-up', { object: this.hovered, isLeftClick, isMiddleClick });
+	}
+
+	onContextMenu(e) {
+		// Prevent context menu
+		e.preventDefault();
+		e.stopPropagation();
+		return false;
 	}
 
 	onLeave(e) {

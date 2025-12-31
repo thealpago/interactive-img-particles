@@ -115,6 +115,8 @@ export default class Particles {
 			uTextureSize: { value: new THREE.Vector2(this.width, this.height) },
 			uTexture: { value: this.texture },
 			uTouch: { value: null },
+			uSpatialMode: { value: 0.0 },
+			uMousePosition: { value: new THREE.Vector2(0.5, 0.5) },
 		};
 
 		const material = new THREE.RawShaderMaterial({
@@ -188,14 +190,20 @@ export default class Particles {
 
 	addListeners() {
 		this.handlerInteractiveMove = this.onInteractiveMove.bind(this);
+		this.handlerInteractiveDown = this.onInteractiveDown.bind(this);
+		this.handlerInteractiveUp = this.onInteractiveUp.bind(this);
 
 		this.webgl.interactive.addListener('interactive-move', this.handlerInteractiveMove);
+		this.webgl.interactive.addListener('interactive-down', this.handlerInteractiveDown);
+		this.webgl.interactive.addListener('interactive-up', this.handlerInteractiveUp);
 		this.webgl.interactive.objects.push(this.hitArea);
 		this.webgl.interactive.enable();
 	}
 
 	removeListeners() {
 		this.webgl.interactive.removeListener('interactive-move', this.handlerInteractiveMove);
+		this.webgl.interactive.removeListener('interactive-down', this.handlerInteractiveDown);
+		this.webgl.interactive.removeListener('interactive-up', this.handlerInteractiveUp);
 
 		const index = this.webgl.interactive.objects.findIndex(obj => obj === this.hitArea);
 		this.webgl.interactive.objects.splice(index, 1);
@@ -287,7 +295,103 @@ export default class Particles {
 	}
 
 	onInteractiveMove(e) {
+		// Disable touch interaction when in spatial photo mode
+		if (this.spatialPhotoMode) {
+			return;
+		}
+		
 		const uv = e.intersectionData.uv;
 		if (this.touch) this.touch.addTouch(uv);
+	}
+
+	onInteractiveDown(e) {
+		// Check for left mouse click
+		if (e.isLeftClick) {
+			this.startExplode();
+		}
+	}
+
+	onInteractiveUp(e) {
+		// Check for left mouse click release
+		if (e.isLeftClick) {
+			this.startReform();
+		}
+	}
+
+	startExplode() {
+		if (!this.object3D) return;
+
+		// Cancel any pending reform
+		if (this.reformTimeout) {
+			clearTimeout(this.reformTimeout);
+			this.reformTimeout = null;
+		}
+
+		// Explode - make edge particles scatter to infinity, center stable
+		TweenLite.to(this.object3D.material.uniforms.uRandom, 1.5, { value: 30.0, ease: Power2.easeOut });
+		TweenLite.to(this.object3D.material.uniforms.uDepth, 1.5, { value: 50.0, ease: Power2.easeOut });
+	}
+
+	startReform() {
+		if (!this.object3D) return;
+
+		// Cancel any pending reform
+		if (this.reformTimeout) {
+			clearTimeout(this.reformTimeout);
+		}
+
+		// Start reform immediately with soft animation (20% faster)
+		const gui = this.webgl.app.gui;
+		const size = gui ? gui.particlesSize : 1.5;
+		const random = gui ? gui.particlesRandom : 2.0;
+		const depth = gui ? gui.particlesDepth : 4.0;
+
+		TweenLite.to(this.object3D.material.uniforms.uSize, 1.6, { value: size, ease: Power2.easeInOut });
+		TweenLite.to(this.object3D.material.uniforms.uRandom, 2.0, { value: random, ease: Power2.easeInOut });
+		TweenLite.to(this.object3D.material.uniforms.uDepth, 2.4, { value: depth, ease: Power2.easeInOut });
+	}
+
+	startSpatialPhoto() {
+		if (!this.object3D) return;
+
+		// Enable spatial photo mode
+		this.spatialPhotoMode = true;
+		
+		// Reset mouse position to center when starting spatial photo mode
+		this.object3D.material.uniforms.uMousePosition.value.set(0.5, 0.5);
+		
+		// Set spatial mode uniform
+		this.object3D.material.uniforms.uSpatialMode.value = 1.0;
+		
+		// Keep particles stable - no explosion effect
+		const gui = this.webgl.app.gui;
+		const size = gui ? gui.particlesSize : 1.5;
+		const random = gui ? gui.particlesRandom : 2.0;
+		const depth = gui ? gui.particlesDepth : 4.0;
+		
+		// Maintain current values without animation
+		this.object3D.material.uniforms.uSize.value = size;
+		this.object3D.material.uniforms.uRandom.value = random;
+		this.object3D.material.uniforms.uDepth.value = depth;
+	}
+
+	stopSpatialPhoto() {
+		if (!this.object3D) return;
+
+		// Disable spatial photo mode
+		this.spatialPhotoMode = false;
+		
+		// Reset spatial mode uniform
+		this.object3D.material.uniforms.uSpatialMode.value = 0.0;
+
+		// Return to normal settings with smooth transition
+		const gui = this.webgl.app.gui;
+		const size = gui ? gui.particlesSize : 1.5;
+		const random = gui ? gui.particlesRandom : 2.0;
+		const depth = gui ? gui.particlesDepth : 4.0;
+
+		TweenLite.to(this.object3D.material.uniforms.uSize, 1.5, { value: size, ease: Power2.easeInOut });
+		TweenLite.to(this.object3D.material.uniforms.uRandom, 1.5, { value: random, ease: Power2.easeInOut });
+		TweenLite.to(this.object3D.material.uniforms.uDepth, 1.5, { value: depth, ease: Power2.easeInOut });
 	}
 }

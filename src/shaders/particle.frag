@@ -18,7 +18,7 @@ void main() {
 	float dist = radius - distance(uv, vec2(0.5));
 	float t = smoothstep(0.0, border, dist);
 
-	// final color - use the color passed from vertex shader
+	// final color - use original photo color
 	color = vColor;
 	color.a = t;
 

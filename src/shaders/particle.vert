@@ -18,6 +18,8 @@ uniform float uSize;
 uniform vec2 uTextureSize;
 uniform sampler2D uTexture;
 uniform sampler2D uTouch;
+uniform float uSpatialMode;
+uniform vec2 uMousePosition;
 
 varying vec2 vPUv;
 varying vec2 vUv;
@@ -51,7 +53,24 @@ void main() {
 	// randomise
 	displaced.xy += vec2(random(pindex) - 0.5, random(offset.x + pindex) - 0.5) * uRandom;
 	float rndz = (random(pindex) + snoise2(vec2(pindex * 0.1, uTime * 0.1)));
-	displaced.z += rndz * (random(pindex) * 2.0 * uDepth);
+	
+	// Enhanced depth for spatial photo mode
+	float depthMultiplier = 1.0;
+	if (uSpatialMode > 0.5) {
+		// Create layered depth effect based on pixel brightness
+		float brightness = grey;
+		depthMultiplier = mix(0.5, 3.0, 1.0 - brightness); // Darker pixels move back, lighter pixels forward
+		
+		// Add subtle animation
+		depthMultiplier += sin(uTime * 2.0 + pindex * 0.1) * 0.1;
+		
+		// Add 3D movement based on mouse position
+		float mouseInfluence = (uMousePosition.x - 0.5) * 2.0; // -1 to 1
+		displaced.x += mouseInfluence * depthMultiplier * 20.0;
+		displaced.y += (uMousePosition.y - 0.5) * depthMultiplier * 10.0;
+	}
+	
+	displaced.z += rndz * (random(pindex) * 2.0 * uDepth * depthMultiplier);
 	// center
 	displaced.xy -= uTextureSize * 0.5;
 

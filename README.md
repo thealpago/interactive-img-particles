@@ -10,9 +10,9 @@ A tutorial demonstrating how to draw a large number of particles with Three.js a
 
 ## Libraries
 - [gsap](https://www.npmjs.com/package/gsap) - animation platform
-- [glslify](https://github.com/glslify/glslify) - module system for GLSL
-- [stats.js](https://github.com/mrdoob/stats.js/) - performance monitor
-- [Three.js](https://github.com/mrdoob/three.js/) - WebGL library
+- [glslify](https://www.npmjs.com/package/glslify) - module system for GLSL
+- [stats.js](https://www.npmjs.com/package/stats.js) - performance monitor
+- [Three.js](https://www.npmjs.com/package/three) - WebGL library
 - [browser-detect](https://www.npmjs.com/package/browser-detect) - browser detection
 - [domready](https://www.npmjs.com/package/domready) - DOM ready event
 
@@ -20,6 +20,3 @@ A tutorial demonstrating how to draw a large number of particles with Three.js a
 This resource can be used freely if integrated or build upon in personal or commercial projects such as websites, web apps and web templates intended for sale. It is not allowed to take the resource "as-is" and sell it, redistribute, re-publish it, or sell "pluginized" versions of it. Free plugins built using this resource should have a visible mention and link to the original work. Always consider the licenses of all included libraries, scripts and images used.
 
 ## Misc
-
-
-[© Codrops 2018]

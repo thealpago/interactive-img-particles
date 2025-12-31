@@ -30,21 +30,12 @@ export default class WebGLView {
 			'static/images/sample-16.jpg',
 			'static/images/sample-17.jpg',
 			'static/images/sample-18.jpg',
+			'static/images/sample-19.jpg',
+			'static/images/sample-20.jpg',
 
 		];
 
-		this.photoNames = [
-			'M. K. Atatürk',
-			'Brad Pitt',
-			'Albert Einstein',
-			'The Tenth Doctor',
-			'John Wick',
-			'Shanks',
-			'Shanks 2',
-			'Luffy',
-			'Luffy 2',
-			'Tatsumaki',
-			'Tatsumaki 2',
+		this.photoNames = [			
 			'AI Girl',
 			'AI Girl 2',
 			'AI Girl 3',
@@ -52,6 +43,19 @@ export default class WebGLView {
 			'AI Girl 5',
 			'AI Girl 6',
 			'AI Girl 7',
+			'AI Girl 8',
+			'AI Girl 9',
+			'AI Girl 10',
+			'AI Girl 11',
+			'AI Girl 12',
+			'AI Girl 13',
+			'AI Girl 14',
+			'AI Girl 15',
+			'AI Girl 16',
+			'AI Girl 17',
+			'AI Girl 18',
+			'AI Girl 19',
+			'AI Girl 20',
 
 		];
 
