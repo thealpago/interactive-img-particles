@@ -106,11 +106,14 @@ export default class GUIView {
 				guiMenu.classList.toggle('visible');
 			});
 
-			// Close menu when clicking outside
+			// Close menu when clicking outside, but not on navigation elements
 			document.addEventListener('click', (e) => {
 				if (guiMenu.classList.contains('visible') &&
 					!guiMenu.contains(e.target) &&
-					!toggleBtn.contains(e.target)) {
+					!toggleBtn.contains(e.target) &&
+					!e.target.closest('#photo-nav') && // Don't close on nav dots
+					!e.target.closest('#prev-btn') && // Don't close on prev button
+					!e.target.closest('#next-btn')) { // Don't close on next button
 					guiMenu.classList.remove('visible');
 				}
 			});
