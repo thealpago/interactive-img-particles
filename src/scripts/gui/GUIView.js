@@ -5,7 +5,6 @@ export default class GUIView {
 
 		// Default settings
 		this.defaultSettings = {
-			particlesHitArea: false,
 			particlesRandom: 2,
 			particlesDepth: 4,
 			particlesSize: 1.5,
@@ -13,7 +12,6 @@ export default class GUIView {
 		};
 
 		// Current state - use default values initially
-		this.particlesHitArea = this.defaultSettings.particlesHitArea;
 		this.particlesRandom = this.defaultSettings.particlesRandom;
 		this.particlesDepth = this.defaultSettings.particlesDepth;
 		this.particlesSize = this.defaultSettings.particlesSize;
@@ -48,8 +46,7 @@ export default class GUIView {
 			touchRadius: document.getElementById('touchRadius'),
 			particlesRandom: document.getElementById('particlesRandom'),
 			particlesDepth: document.getElementById('particlesDepth'),
-			particlesSize: document.getElementById('particlesSize'),
-			particlesHitArea: document.getElementById('particlesHitArea')
+			particlesSize: document.getElementById('particlesSize')
 		};
 
 		if (this.dom.touchRadius) {
@@ -79,14 +76,6 @@ export default class GUIView {
 		if (this.dom.particlesSize) {
 			this.dom.particlesSize.addEventListener('input', (e) => {
 				this.particlesSize = parseFloat(e.target.value);
-				this.onParticlesChange();
-				this.saveCurrentSettings();
-			});
-		}
-
-		if (this.dom.particlesHitArea) {
-			this.dom.particlesHitArea.addEventListener('change', (e) => {
-				this.particlesHitArea = e.target.checked;
 				this.onParticlesChange();
 				this.saveCurrentSettings();
 			});
@@ -126,7 +115,6 @@ export default class GUIView {
 		if (this.dom.particlesRandom) this.dom.particlesRandom.value = this.particlesRandom;
 		if (this.dom.particlesDepth) this.dom.particlesDepth.value = this.particlesDepth;
 		if (this.dom.particlesSize) this.dom.particlesSize.value = this.particlesSize;
-		if (this.dom.particlesHitArea) this.dom.particlesHitArea.checked = this.particlesHitArea;
 	}
 
 	saveCurrentSettings() {
@@ -134,7 +122,6 @@ export default class GUIView {
 		if (index === undefined) return;
 
 		this.settingsMap[index] = {
-			particlesHitArea: this.particlesHitArea,
 			particlesRandom: this.particlesRandom,
 			particlesDepth: this.particlesDepth,
 			particlesSize: this.particlesSize,
@@ -148,7 +135,6 @@ export default class GUIView {
 		const settings = this.settingsMap[index] || { ...this.defaultSettings };
 
 		// Update internal state
-		this.particlesHitArea = settings.particlesHitArea;
 		this.particlesRandom = settings.particlesRandom;
 		this.particlesDepth = settings.particlesDepth;
 		this.particlesSize = settings.particlesSize;
@@ -196,9 +182,5 @@ export default class GUIView {
 		this.app.webgl.particles.object3D.material.uniforms.uRandom.value = this.particlesRandom;
 		this.app.webgl.particles.object3D.material.uniforms.uDepth.value = this.particlesDepth;
 		this.app.webgl.particles.object3D.material.uniforms.uSize.value = this.particlesSize;
-
-		if (this.app.webgl.particles.hitArea) {
-			this.app.webgl.particles.hitArea.material.visible = this.particlesHitArea;
-		}
 	}
 }
