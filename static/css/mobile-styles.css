@@ -119,22 +119,22 @@
     /* Common mobile optimizations */
     .photo-nav {
         bottom: 30px;
-        padding: 8px 24px;
-        gap: 7px;
-        /* 50% longer navbar */
-        max-width: calc(95vw * 1.5);
+        padding: 8px 16px;
+        gap: 12px;
+        /* prevent overflow on very small screens */
+        max-width: 95vw;
         flex-wrap: wrap;
         justify-content: center;
     }
 
     .nav-dot-wrapper {
-        width: 8px;
-        height: 8px;
+        width: 14px;
+        height: 14px;
     }
 
     .nav-dot {
-        width: 3px;
-        height: 3px;
+        width: 6px;
+        height: 6px;
     }
 
     .photo-title {
@@ -159,23 +159,22 @@
 @media screen and (max-width: 900px) and (orientation: landscape) {
     .photo-nav {
         bottom: 15px;
-        padding: 6px 30px;
-        gap: 5px;
-        /* 50% longer navbar in landscape too */
-        max-width: calc(80vw * 1.5);
+        padding: 6px 14px;
+        gap: 12px;
+        max-width: 80vw;
         /* Extend navbar with more dots visible */
         flex-wrap: nowrap;
         justify-content: center;
     }
 
     .nav-dot-wrapper {
-        width: 7px;
-        height: 7px;
+        width: 12px;
+        height: 12px;
     }
 
     .nav-dot {
-        width: 2.5px;
-        height: 2.5px;
+        width: 4px;
+        height: 4px;
     }
 
     .photo-title {
