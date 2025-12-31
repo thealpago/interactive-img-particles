@@ -189,7 +189,7 @@
 
     .gui-toggle {
         bottom: 15px;
-        left: calc(15px + 20vw); /* 10% more to the right (total 20vw) in landscape */
+        left: calc(15px + 8vw); /* 12% to the left from 20vw to 8vw to match menu */
         top: auto;
         right: auto;
         width: 36px;
@@ -198,7 +198,7 @@
     }
 
     .glass-menu {
-        left: calc(20px + 20vw); /* 10% more to the right (total 20vw) in landscape */
-        max-height: 40vh; /* Same height as portrait to fit all settings */
+        left: calc(20px + 8vw); /* 12% to the left from 20vw to 8vw */
+        max-height: 35vh; /* Reduced height to fit all 4 settings without scroll */
     }
 }
