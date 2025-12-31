@@ -1,0 +1,125 @@
+/* Mobile Toggle Button */
+.gui-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10001;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.gui-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Prevent touch scrolling on canvas container */
+.container {
+    touch-action: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 900px) {
+    .gui-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .glass-menu {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        height: 100vh;
+        width: 280px;
+        transform: translateX(100%);
+        border-radius: 0;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        border: none;
+        background: rgba(14, 14, 15, 0.95);
+        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        justify-content: center;
+    }
+
+    .glass-menu.visible {
+        transform: translateX(0);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Common mobile optimizations */
+    .photo-nav {
+        bottom: 30px;
+        padding: 8px 16px;
+        gap: 12px;
+        /* prevent overflow on very small screens */
+        max-width: 95vw;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-dot-wrapper {
+        width: 14px;
+        height: 14px;
+    }
+
+    .nav-dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .photo-title {
+        font-size: 0.9rem;
+        padding: 8px 20px;
+        width: max-content;
+        max-width: 90vw;
+        text-align: center;
+        /* Reset positioning for flex container */
+        position: static;
+        bottom: auto;
+        transform: none;
+    }
+
+    .photo-title.visible {
+        /* No bottom change needed */
+        opacity: 1;
+    }
+}
+
+/* Landscape Specific Optimizations */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+    .photo-nav {
+        bottom: 15px;
+        padding: 6px 14px;
+        gap: 12px;
+    }
+
+    .photo-title {
+        bottom: 65px;
+        font-size: 0.85rem;
+        padding: 6px 15px;
+    }
+
+    .photo-title.visible {
+        bottom: 60px;
+    }
+
+    .gui-toggle {
+        top: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+        padding: 8px;
+    }
+}
