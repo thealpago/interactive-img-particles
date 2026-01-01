@@ -124,12 +124,9 @@ export default class WebGLView {
 	updateTitle(index) {
 		if (!this.titleElement) return;
 
-		this.titleElement.classList.remove('visible');
-
-		setTimeout(() => {
-			this.titleElement.innerText = this.photoNames[index] || '';
-			this.titleElement.classList.add('visible');
-		}, 150);
+		// Remove animation - just update text directly
+		this.titleElement.innerText = this.photoNames[index] || '';
+		this.titleElement.classList.add('visible');
 	}
 
 	updateNav(index) {
