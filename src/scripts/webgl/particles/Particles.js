@@ -285,10 +285,14 @@ export default class Particles {
 		// Use 'contain' strategy to fit the image within the screen
 		let scale = Math.min(scaleY, scaleX);
 
-		// Optional: Add a slight margin (e.g. 90% of screen) if desired, 
-		// but standard Contain is usually 100%. 
-		// If on mobile, maybe we want to be slightly safer? 
-		// Let's stick to exact fit for now.
+		// Mobile-specific zoom for landscape to portrait transition
+		const isMobile = window.innerWidth <= 900;
+		const isPortrait = window.innerHeight > window.innerWidth;
+		
+		if (isMobile && isPortrait) {
+			// Apply 50% zoom in portrait mode on mobile
+			scale *= 1.5;
+		}
 
 		this.object3D.scale.set(scale, scale, 1);
 		this.hitArea.scale.set(scale, scale, 1);
