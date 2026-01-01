@@ -290,8 +290,14 @@ export default class Particles {
 		const isPortrait = window.innerHeight > window.innerWidth;
 		
 		if (isMobile && isPortrait) {
-			// Apply no zoom in portrait mode on mobile
-			scale *= 1.0;
+			// Create fixed 360x800px viewport frame in mobile portrait mode
+			const viewportWidth = 360;
+			const viewportHeight = 800;
+			
+			// Calculate scale to fit image within the fixed viewport
+			const scaleX = viewportWidth / this.width;
+			const scaleY = viewportHeight / this.height;
+			scale = Math.min(scaleX, scaleY);
 		}
 
 		this.object3D.scale.set(scale, scale, 1);
