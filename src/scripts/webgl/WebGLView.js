@@ -153,6 +153,13 @@ export default class WebGLView {
 
 		// renderer
 		this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+		
+		// Mobile-specific pixel ratio initialization
+		const isMobile = window.innerWidth <= 900;
+		if (isMobile) {
+			this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+		}
+		// Web version keeps default behavior (no setPixelRatio)
 
 		// clock
 		this.clock = new THREE.Clock(true);
@@ -213,7 +220,24 @@ export default class WebGLView {
 
 		this.fovHeight = 2 * Math.tan((this.camera.fov * Math.PI) / 180 / 2) * this.camera.position.z;
 
-		this.renderer.setSize(window.innerWidth, window.innerHeight);
+		// Mobile-specific pixel ratio handling for orientation changes
+		const isMobile = window.innerWidth <= 900;
+		if (isMobile) {
+			// Force pixel ratio update on mobile orientation changes
+			const currentPixelRatio = this.renderer.getPixelRatio();
+			const devicePixelRatio = window.devicePixelRatio || 1;
+			
+			// Only update if different to prevent unnecessary re-renders
+			if (currentPixelRatio !== devicePixelRatio) {
+				this.renderer.setPixelRatio(devicePixelRatio);
+			}
+			
+			// Set size with pixel ratio consideration for mobile
+			this.renderer.setSize(window.innerWidth, window.innerHeight, true);
+		} else {
+			// Web version - keep original behavior
+			this.renderer.setSize(window.innerWidth, window.innerHeight);
+		}
 
 		if (this.interactive) this.interactive.resize();
 		if (this.particles) this.particles.resize();
