@@ -201,6 +201,7 @@
         left: calc(20px + 5vw); /* 3% to the left from 8vw to 5vw */
         max-height: calc(35vh * 1.4); /* 40% taller height */
         width: calc(200px * 0.7); /* 30% shorter width */
+        bottom: calc(80px * 1.1); /* 10% higher position */
     }
 
     /* Reduce text size by 50% in landscape mode */
