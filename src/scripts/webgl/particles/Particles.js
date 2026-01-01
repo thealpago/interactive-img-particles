@@ -290,8 +290,8 @@ export default class Particles {
 		const isPortrait = window.innerHeight > window.innerWidth;
 		
 		if (isMobile && isPortrait) {
-			// Apply 50% zoom in portrait mode on mobile
-			scale *= 1.5;
+			// Apply no zoom in portrait mode on mobile
+			scale *= 1.0;
 		}
 
 		this.object3D.scale.set(scale, scale, 1);
