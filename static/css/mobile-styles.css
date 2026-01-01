@@ -192,9 +192,9 @@
         left: calc(15px + 5vw); /* 3% to the left from 8vw to 5vw to match menu */
         top: auto;
         right: auto;
-        width: 54px; /* 50% larger */
-        height: 54px; /* 50% larger */
-        padding: 12px; /* 50% larger */
+        width: 27px; /* 50% smaller from 54px */
+        height: 27px; /* 50% smaller from 54px */
+        padding: 6px; /* 50% smaller from 12px */
     }
 
     .glass-menu {
