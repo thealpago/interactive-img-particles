@@ -202,4 +202,27 @@
         max-height: calc(35vh * 1.4); /* 40% taller height */
         width: calc(200px * 0.7); /* 30% shorter width */
     }
+
+    /* Reduce text size by 50% in landscape mode */
+    .glass-menu h3 {
+        font-size: 0.75rem; /* 50% smaller from 1.5rem */
+    }
+    
+    .glass-menu .gui-group label {
+        font-size: 0.7rem; /* 50% smaller from 1.4rem */
+    }
+    
+    .glass-menu input[type="range"] {
+        height: 2px; /* Smaller track */
+    }
+    
+    .glass-menu input[type="range"]::-webkit-slider-thumb {
+        width: 8px; /* Smaller thumb */
+        height: 8px;
+    }
+    
+    .glass-menu input[type="checkbox"] {
+        width: 10px; /* Smaller checkbox */
+        height: 10px;
+    }
 }
