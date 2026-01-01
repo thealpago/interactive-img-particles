@@ -192,16 +192,16 @@
         left: calc(15px + 5vw); /* 3% to the left from 8vw to 5vw to match menu */
         top: auto;
         right: auto;
-        width: 36px;
-        height: 36px;
-        padding: 8px;
+        width: 54px; /* 50% larger */
+        height: 54px; /* 50% larger */
+        padding: 12px; /* 50% larger */
     }
 
     .glass-menu {
         left: calc(20px + 5vw); /* 3% to the left from 8vw to 5vw */
-        max-height: calc(35vh * 1.4); /* 40% taller height */
+        max-height: calc(35vh * 1.4 * 1.2); /* 20% taller height */
         width: calc(200px * 0.7); /* 30% shorter width */
-        bottom: calc(80px * 1.1); /* 10% higher position */
+        bottom: calc(80px * 1.2); /* 10% higher position */
     }
 
     /* Reduce text size by 50% in landscape mode */
@@ -214,16 +214,16 @@
     }
     
     .glass-menu input[type="range"] {
-        height: 2px; /* Smaller track */
+        height: 3px; /* 50% larger from 2px */
     }
     
     .glass-menu input[type="range"]::-webkit-slider-thumb {
-        width: 8px; /* Smaller thumb */
-        height: 8px;
+        width: 12px; /* 50% larger from 8px */
+        height: 12px;
     }
     
     .glass-menu input[type="checkbox"] {
-        width: 10px; /* Smaller checkbox */
-        height: 10px;
+        width: 15px; /* 50% larger from 10px */
+        height: 15px;
     }
 }
