@@ -12,6 +12,7 @@ export default class GUIView {
 		};
 
 		// Current state - use default values initially
+		this.particlesHitArea = this.defaultSettings.particlesHitArea;
 		this.particlesRandom = this.defaultSettings.particlesRandom;
 		this.particlesDepth = this.defaultSettings.particlesDepth;
 		this.particlesSize = this.defaultSettings.particlesSize;

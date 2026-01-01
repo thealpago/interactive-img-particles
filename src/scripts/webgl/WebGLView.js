@@ -31,7 +31,6 @@ export default class WebGLView {
 			'static/images/sample-17.jpg',
 			'static/images/sample-18.jpg',
 			'static/images/sample-19.jpg',
-			'static/images/sample-20.jpg',
 
 		];
 
@@ -55,7 +54,6 @@ export default class WebGLView {
 			'AI Work 17',
 			'AI Work 18',
 			'AI Work 19',
-			'AI Work 20',
 
 		];
 
