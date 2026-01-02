@@ -1,4 +1,4 @@
-# Interactive Particles with Three.js
+# Interactive Particles With Photographs
 
 A tutorial demonstrating how to draw a large number of particles with Three.js and an efficient way to make them react to mouse and touch input using an off-screen texture.
 
