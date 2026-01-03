@@ -31,6 +31,8 @@ export default class WebGLView {
 			'static/images/sample-17.jpg',
 			'static/images/sample-18.jpg',
 			'static/images/sample-19.jpg',
+			'static/images/sample-20.jpg',
+			'static/images/sample-21.jpg',
 
 		];
 
@@ -54,6 +56,8 @@ export default class WebGLView {
 			'AI Work 17',
 			'AI Work 18',
 			'AI Work 19',
+			'AI Work 20',
+			'AI Work 21',
 
 		];
 
@@ -148,6 +152,9 @@ export default class WebGLView {
 
 		// renderer
 		this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+		
+		// Set cursor to default for canvas
+		this.renderer.domElement.style.cursor = 'default';
 		
 		// Mobile-specific pixel ratio initialization
 		const isMobile = window.innerWidth <= 900;

@@ -3,6 +3,10 @@
   "version": "1.1.0",
   "description": "Interactive Particles With Photographs - Webpack 5 and Three.js",
   "main": "src/scripts/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thealpago/interactive-img-particles.git"
+  },
   "scripts": {
     "build": "webpack --config config/prod.js",
     "start": "webpack serve --config config/dev.js",
