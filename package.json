@@ -1,7 +1,7 @@
 {
-  "name": "interactive-particles-with-photographs",
+  "name": "interactive-image-particles",
   "version": "1.1.0",
-  "description": "Interactive Particles With Photographs - Webpack 5 and Three.js",
+  "description": "Interactive Image Particles - Webpack 5 and Three.js",
   "main": "src/scripts/index.js",
   "repository": {
     "type": "git",

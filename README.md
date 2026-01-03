@@ -1,4 +1,4 @@
-# Interactive Particles With Photographs
+# Interactive Image Particles
 
 An interactive web experience that creates stunning particle effects from photographs using Three.js and WebGL. This project demonstrates how to transform static images into dynamic, responsive particle systems that react to user interactions.
 
