@@ -32,6 +32,7 @@ export default class App {
 		this.handlerAnimate = this.animate.bind(this);
 
 		window.addEventListener('resize', this.resize.bind(this));
+		window.addEventListener('orientationchange', this.resize.bind(this));
 		window.addEventListener('keyup', this.keyup.bind(this));
 
 

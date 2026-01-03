@@ -287,14 +287,28 @@ export default class Particles {
 		let scale;
 
 		if (isMobile) {
-			// Mobile: Sadece yükseklik bazlı ölçeklendirme - her fotoğraf yüksekliği ekrana tam sığar
-			scale = scaleY; // Sadece yüksekliği kullan, genişlik taşabilir
+			// Mobile: Portrait/Landscape ayrımı
+			const isPortrait = window.innerHeight > window.innerWidth;
+			
+			if (isPortrait) {
+				// Portrait: Sadece yükseklik bazlı ölçeklendirme - her fotoğraf yüksekliği ekrana tam sığar
+				scale = scaleY; // Sadece yüksekliği kullan, genişlik taşabilir
 
-			// Ekran yüksekliğine göre dinamik faktör - referans 800px
-			const screenHeight = window.innerHeight;
-			const baseHeight = 715;
-			const heightFactor = Math.min(screenHeight / baseHeight, 1.2); // Maks 1.2x büyütme
-			scale *= heightFactor;
+				// Ekran yüksekliğine göre dinamik faktör - referans 800px
+				const screenHeight = window.innerHeight;
+				const baseHeight = 715;
+				const heightFactor = Math.min(screenHeight / baseHeight, 1.2); // Maks 1.2x büyütme
+				scale *= heightFactor;
+			} else {
+				// Landscape: Contain stratejisi - hem yükseklik hem genişliği dikkate al
+				scale = Math.min(scaleY, scaleX);
+				
+				// Landscape'de daha küçük base height kullan - küçülme önlemek için
+				const screenHeight = window.innerHeight;
+				const baseHeight = 400; // Landscape için daha küçük referans
+				const heightFactor = Math.max(screenHeight / baseHeight, 1.0); // Minimum 1.0x, küçülme olmaz
+				scale *= heightFactor;
+			}
 		} else {
 			// Masaüstü: Eski contain stratejisi
 			scale = Math.min(scaleY, scaleX);
