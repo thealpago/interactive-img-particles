@@ -14,6 +14,11 @@ export default class InteractiveControls extends EventEmitter {
 		this.camera = camera;
 		this.el = el || window;
 
+		// Force cursor to default for the element
+		if (this.el !== window) {
+			this.el.style.cursor = 'default';
+		}
+
 		this.plane = new THREE.Plane();
 		this.raycaster = new THREE.Raycaster();
 
@@ -96,6 +101,11 @@ export default class InteractiveControls extends EventEmitter {
 		// Prevent page scrolling on touch devices when interacting with particles
 		if (e.touches) {
 			e.preventDefault();
+		}
+		
+		// Ensure cursor stays default
+		if (this.el !== window) {
+			this.el.style.cursor = 'default';
 		}
 		
 		const t = (e.touches) ? e.touches[0] : e;

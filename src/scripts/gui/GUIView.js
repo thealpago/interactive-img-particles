@@ -5,7 +5,6 @@ export default class GUIView {
 
 		// Default settings
 		this.defaultSettings = {
-			particlesHitArea: false,
 			particlesRandom: 2,
 			particlesDepth: 4,
 			particlesSize: 1.5,
@@ -48,8 +47,7 @@ export default class GUIView {
 			touchRadius: document.getElementById('touchRadius'),
 			particlesRandom: document.getElementById('particlesRandom'),
 			particlesDepth: document.getElementById('particlesDepth'),
-			particlesSize: document.getElementById('particlesSize'),
-			particlesHitArea: document.getElementById('particlesHitArea')
+			particlesSize: document.getElementById('particlesSize')
 		};
 
 		if (this.dom.touchRadius) {
@@ -84,14 +82,6 @@ export default class GUIView {
 			});
 		}
 
-		if (this.dom.particlesHitArea) {
-			this.dom.particlesHitArea.addEventListener('change', (e) => {
-				this.particlesHitArea = e.target.checked;
-				this.onParticlesChange();
-				this.saveCurrentSettings();
-			});
-		}
-
 		// Set initial DOM values to match current state
 		this.updateDOMValues();
 
@@ -106,11 +96,14 @@ export default class GUIView {
 				guiMenu.classList.toggle('visible');
 			});
 
-			// Close menu when clicking outside
+			// Close menu when clicking outside, but not on navigation elements
 			document.addEventListener('click', (e) => {
 				if (guiMenu.classList.contains('visible') &&
 					!guiMenu.contains(e.target) &&
-					!toggleBtn.contains(e.target)) {
+					!toggleBtn.contains(e.target) &&
+					!e.target.closest('#photo-nav') && // Don't close on nav dots
+					!e.target.closest('#prev-btn') && // Don't close on prev button
+					!e.target.closest('#next-btn')) { // Don't close on next button
 					guiMenu.classList.remove('visible');
 				}
 			});
@@ -123,7 +116,6 @@ export default class GUIView {
 		if (this.dom.particlesRandom) this.dom.particlesRandom.value = this.particlesRandom;
 		if (this.dom.particlesDepth) this.dom.particlesDepth.value = this.particlesDepth;
 		if (this.dom.particlesSize) this.dom.particlesSize.value = this.particlesSize;
-		if (this.dom.particlesHitArea) this.dom.particlesHitArea.checked = this.particlesHitArea;
 	}
 
 	saveCurrentSettings() {
@@ -131,7 +123,6 @@ export default class GUIView {
 		if (index === undefined) return;
 
 		this.settingsMap[index] = {
-			particlesHitArea: this.particlesHitArea,
 			particlesRandom: this.particlesRandom,
 			particlesDepth: this.particlesDepth,
 			particlesSize: this.particlesSize,
@@ -145,7 +136,6 @@ export default class GUIView {
 		const settings = this.settingsMap[index] || { ...this.defaultSettings };
 
 		// Update internal state
-		this.particlesHitArea = settings.particlesHitArea;
 		this.particlesRandom = settings.particlesRandom;
 		this.particlesDepth = settings.particlesDepth;
 		this.particlesSize = settings.particlesSize;
@@ -193,9 +183,5 @@ export default class GUIView {
 		this.app.webgl.particles.object3D.material.uniforms.uRandom.value = this.particlesRandom;
 		this.app.webgl.particles.object3D.material.uniforms.uDepth.value = this.particlesDepth;
 		this.app.webgl.particles.object3D.material.uniforms.uSize.value = this.particlesSize;
-
-		if (this.app.webgl.particles.hitArea) {
-			this.app.webgl.particles.hitArea.material.visible = this.particlesHitArea;
-		}
 	}
 }

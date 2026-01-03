@@ -1,22 +1,106 @@
-# Interactive Particles with Three.js
+# Interactive Particles With Photographs
 
-A tutorial demonstrating how to draw a large number of particles with Three.js and an efficient way to make them react to mouse and touch input using an off-screen texture.
+An interactive web experience that creates stunning particle effects from photographs using Three.js and WebGL. This project demonstrates how to transform static images into dynamic, responsive particle systems that react to user interactions.
 
+## Features
 
-## Run
-- Install `npm install`
-- Run `npm start`
-- Build `npm run build`
+- 🖼️ **Photograph to Particle Conversion**: Transform any image into interactive particles
+- 🎯 **Mouse & Touch Interaction**: Particles react dynamically to user input
+- ⚡ **High Performance**: Optimized rendering using off-screen textures
+- 📱 **Responsive Design**: Works seamlessly on desktop and mobile devices
+- 🎨 **Customizable Settings**: Adjustable particle behavior through interactive controls
 
-## Libraries
-- [gsap](https://www.npmjs.com/package/gsap) - animation platform
-- [glslify](https://www.npmjs.com/package/glslify) - module system for GLSL
-- [stats.js](https://www.npmjs.com/package/stats.js) - performance monitor
-- [Three.js](https://www.npmjs.com/package/three) - WebGL library
-- [browser-detect](https://www.npmjs.com/package/browser-detect) - browser detection
-- [domready](https://www.npmjs.com/package/domready) - DOM ready event
+## Demo
+
+Live demo available at: [Your Demo URL Here]
+
+## Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/thealpago/interactive-img-particles.git
+
+# Navigate to the project directory
+cd interactive-img-particles
+
+# Install dependencies
+npm install
+```
+
+## Usage
+
+```bash
+# Start the development server
+npm start
+
+# Or use the dev command
+npm run dev
+
+# Build for production
+npm run build
+```
+
+Open your browser and navigate to `http://localhost:8080` to see the demo.
+
+## Technology Stack
+
+- **[Three.js](https://www.npmjs.com/package/three)** - 3D graphics library for WebGL
+- **[GSAP](https://www.npmjs.com/package/gsap)** - Professional animation library
+- **[GLSLify](https://www.npmjs.com/package/glslify)** - Module system for GLSL shaders
+- **[Stats.js](https://www.npmjs.com/package/stats.js)** - Performance monitoring
+- **[Webpack 5](https://webpack.js.org/)** - Module bundler and build tool
+- **[Browser Detect](https://www.npmjs.com/package/browser-detect)** - Browser feature detection
+- **[DOMReady](https://www.npmjs.com/package/domready)** - DOM ready event handler
+
+## Project Structure
+
+```
+interactive-particles-with-photographs/
+├── src/                    # Source code
+│   ├── scripts/           # JavaScript files
+│   ├── styles/            # CSS files
+│   └── shaders/           # GLSL shader files
+├── config/                # Webpack configuration
+├── css/                   # Compiled styles
+├── scripts/               # Built JavaScript
+├── static/                # Static assets
+├── images/                # Image assets
+└── dist/                  # Production build
+```
+
+## Configuration
+
+The project includes an interactive control panel where you can adjust:
+
+- **Touch Radius**: Control the interaction radius for mouse/touch events
+- **Particle Randomness**: Adjust the random movement of particles
+- **Performance Settings**: Optimize for different devices
+
+## Browser Support
+
+- Chrome 60+
+- Firefox 55+
+- Safari 12+
+- Edge 79+
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
-This resource can be used freely if integrated or build upon in personal or commercial projects such as websites, web apps and web templates intended for sale. It is not allowed to take the resource "as-is" and sell it, redistribute, re-publish it, or sell "pluginized" versions of it. Free plugins built using this resource should have a visible mention and link to the original work. Always consider the licenses of all included libraries, scripts and images used.
 
-## Misc
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Built with modern web technologies and best practices
+- Inspired by creative coding and interactive art communities
+
+## Contact
+
+- Project Link: [https://github.com/thealpago/interactive-img-particles](https://github.com/thealpago/interactive-img-particles)
+- Issues: [GitHub Issues](https://github.com/thealpago/interactive-img-particles/issues)

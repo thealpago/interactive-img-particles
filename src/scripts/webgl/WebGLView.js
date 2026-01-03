@@ -32,30 +32,32 @@ export default class WebGLView {
 			'static/images/sample-18.jpg',
 			'static/images/sample-19.jpg',
 			'static/images/sample-20.jpg',
+			'static/images/sample-21.jpg',
 
 		];
 
 		this.photoNames = [			
-			'AI Girl',
-			'AI Girl 2',
-			'AI Girl 3',
-			'AI Girl 4',
-			'AI Girl 5',
-			'AI Girl 6',
-			'AI Girl 7',
-			'AI Girl 8',
-			'AI Girl 9',
-			'AI Girl 10',
-			'AI Girl 11',
-			'AI Girl 12',
-			'AI Girl 13',
-			'AI Girl 14',
-			'AI Girl 15',
-			'AI Girl 16',
-			'AI Girl 17',
-			'AI Girl 18',
-			'AI Girl 19',
-			'AI Girl 20',
+			'AI Work',
+			'AI Work 2',
+			'AI Work 3',
+			'AI Work 4',
+			'AI Work 5',
+			'AI Work 6',
+			'AI Work 7',
+			'AI Work 8',
+			'AI Work 9',
+			'AI Work 10',
+			'AI Work 11',
+			'AI Work 12',
+			'AI Work 13',
+			'AI Work 14',
+			'AI Work 15',
+			'AI Work 16',
+			'AI Work 17',
+			'AI Work 18',
+			'AI Work 19',
+			'AI Work 20',
+			'AI Work 21',
 
 		];
 
@@ -126,12 +128,9 @@ export default class WebGLView {
 	updateTitle(index) {
 		if (!this.titleElement) return;
 
-		this.titleElement.classList.remove('visible');
-
-		setTimeout(() => {
-			this.titleElement.innerText = this.photoNames[index] || '';
-			this.titleElement.classList.add('visible');
-		}, 150);
+		// Remove animation - just update text directly
+		this.titleElement.innerText = this.photoNames[index] || '';
+		this.titleElement.classList.add('visible');
 	}
 
 	updateNav(index) {
@@ -153,6 +152,16 @@ export default class WebGLView {
 
 		// renderer
 		this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+		
+		// Set cursor to default for canvas
+		this.renderer.domElement.style.cursor = 'default';
+		
+		// Mobile-specific pixel ratio initialization
+		const isMobile = window.innerWidth <= 900;
+		if (isMobile) {
+			this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+		}
+		// Web version keeps default behavior (no setPixelRatio)
 
 		// clock
 		this.clock = new THREE.Clock(true);
@@ -213,7 +222,24 @@ export default class WebGLView {
 
 		this.fovHeight = 2 * Math.tan((this.camera.fov * Math.PI) / 180 / 2) * this.camera.position.z;
 
-		this.renderer.setSize(window.innerWidth, window.innerHeight);
+		// Mobile-specific pixel ratio handling for orientation changes
+		const isMobile = window.innerWidth <= 900;
+		if (isMobile) {
+			// Force pixel ratio update on mobile orientation changes
+			const currentPixelRatio = this.renderer.getPixelRatio();
+			const devicePixelRatio = window.devicePixelRatio || 1;
+			
+			// Only update if different to prevent unnecessary re-renders
+			if (currentPixelRatio !== devicePixelRatio) {
+				this.renderer.setPixelRatio(devicePixelRatio);
+			}
+			
+			// Set size with pixel ratio consideration for mobile
+			this.renderer.setSize(window.innerWidth, window.innerHeight, true);
+		} else {
+			// Web version - keep original behavior
+			this.renderer.setSize(window.innerWidth, window.innerHeight);
+		}
 
 		if (this.interactive) this.interactive.resize();
 		if (this.particles) this.particles.resize();

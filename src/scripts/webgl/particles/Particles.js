@@ -282,16 +282,59 @@ export default class Particles {
 		const scaleY = fovHeight / this.height;
 		const scaleX = fovWidth / this.width;
 
-		// Use 'contain' strategy to fit the image within the screen
-		let scale = Math.min(scaleY, scaleX);
+		// Mobile/Masaüstü ayrımı
+		const isMobile = window.innerWidth <= 900;
+		let scale;
 
-		// Optional: Add a slight margin (e.g. 90% of screen) if desired, 
-		// but standard Contain is usually 100%. 
-		// If on mobile, maybe we want to be slightly safer? 
-		// Let's stick to exact fit for now.
+		if (isMobile) {
+			// Mobile: Sadece yükseklik bazlı ölçeklendirme - her fotoğraf yüksekliği ekrana tam sığar
+			scale = scaleY; // Sadece yüksekliği kullan, genişlik taşabilir
+
+			// Ekran yüksekliğine göre dinamik faktör - referans 800px
+			const screenHeight = window.innerHeight;
+			const baseHeight = 715;
+			const heightFactor = Math.min(screenHeight / baseHeight, 1.2); // Maks 1.2x büyütme
+			scale *= heightFactor;
+		} else {
+			// Masaüstü: Eski contain stratejisi
+			scale = Math.min(scaleY, scaleX);
+		}
+
+		// Horizontal position - sadece mobile cihazlarda
+		let horizontalPosition = 0;
+		
+		if (isMobile) {
+			// Mobile horizontal position control
+			const photoIndex = this.webgl.currSample;
+			const horizontalOffsets = {
+				0: 0,    // sample-01.jpg
+				1: 0,    // sample-02.jpg
+				2: 0,    // sample-03.jpg
+				3: 10,    // sample-04.jpg
+				4: 0,    // sample-05.jpg
+				5: 45,    // sample-06.jpg
+				6: 20,    // sample-07.jpg
+				7: 0,    // sample-08.jpg
+				8: 20,    // sample-09.jpg
+				9: 0,    // sample-10.jpg
+				10: 0,   // sample-11.jpg
+				11: 0,   // sample-12.jpg
+				12: 0,   // sample-13.jpg
+				13: 0,   // sample-14.jpg
+				14: 0,   // sample-15.jpg
+				15: 0,   // sample-16.jpg
+				16: 0,   // sample-17.jpg
+				17: 0,   // sample-18.jpg
+				18: -20,   // sample-19.jpg
+			};
+			
+			horizontalPosition = horizontalOffsets[photoIndex] || 0;
+		}
 
 		this.object3D.scale.set(scale, scale, 1);
+		this.object3D.position.x = horizontalPosition;
 		this.hitArea.scale.set(scale, scale, 1);
+		this.hitArea.position.x = horizontalPosition;
 	}
 
 	onInteractiveMove(e) {
